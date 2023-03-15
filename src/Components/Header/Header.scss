@@ -1,0 +1,16 @@
+header {
+    width: 100vw;
+    height: 10vh;
+    background-color: #272e43;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    a {
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+        text-decoration: none;
+        font-size: 24px;
+        font-weight: bold;
+    }
+}
