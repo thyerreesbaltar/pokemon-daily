@@ -4,7 +4,9 @@ import "./Quote.scss"
 const Quote = () => {
     const [namePokemon, setNamePokemon] = useState<string>("");
     const [currentInput, setCurrentInput] = useState<number>(1);
+    const [currentDiv, setCurrentDiv] = useState<number>(1)
     const [statusMissOrErr, setStatusMissOrErr] = useState<boolean | null>(null);
+
     const pokemon = "pikachu"
     const quantidadeTentativas = 10;
     const tamanhoPalavra = pokemon.length;
@@ -32,11 +34,14 @@ const Quote = () => {
     function handleKeyPress(e: React.KeyboardEvent<HTMLInputElement>) {
         if (e.key == "Backspace") {
             getPreviousId()
+            setNamePokemon(namePokemon.substring(0, namePokemon.length - 1))
         }
     }
 
     function handleSubmit(e: React.KeyboardEvent<HTMLDivElement>) {
         if (e.key == "Enter") {
+            setCurrentDiv(currentDiv + 1)
+            setCurrentInput(1)
             if (namePokemon === pokemon) {
                 setStatusMissOrErr(true)
                 console.log("acerto")
@@ -46,20 +51,36 @@ const Quote = () => {
             }
         }
     }
+    function createInputs(id: number) {
 
-    const renderInputs = []
-    for (let x = 1; x <= tamanhoPalavra; x++) {
-        renderInputs.push(<input type="text" id={`${x}`} onKeyUp={handleKeyPress} onInput={handleInput} maxLength={1} />)
+        const renderInputs = []
+        for (let x = 1; x <= tamanhoPalavra; x++) {
+            renderInputs.push(<input type="text" id={`${id}${x}`} className={`${x}`} onKeyUp={handleKeyPress} onInput={handleInput} maxLength={1} />)
+        }
+
+        return renderInputs
     }
+
     const renderTentativas = [];
     for (let y = 1; y <= quantidadeTentativas; y++) {
-        renderTentativas.push(<div onKeyUp={handleSubmit}>
-            {renderInputs}
+        renderTentativas.push(<div id={`${y}`} onKeyUp={handleSubmit} className={` ${y} ${y == currentDiv? "active": "desactive"}`}>
+            {createInputs(y)}
         </div>)
     }
+    console.log(namePokemon)
+
     useEffect(() => {
-        document.getElementById(`${currentInput}`)?.focus();
-    }, [currentInput])
+        // const element = document.querySelector("#1");
+        // if (element) {
+        //     console.log(element.appendChild);
+        // }
+        // document.getElementById(`active >${currentInput}`)?.focus();
+        // const element = document.getElementsByClassName(`${currentDiv}`);
+        // element?.;
+        console.log(`${currentDiv}${currentInput}`)
+        document.getElementById(`${currentDiv}${currentInput}`)?.focus();
+    }, [currentInput, currentDiv])
+
     return <main>
         <div>
             {
